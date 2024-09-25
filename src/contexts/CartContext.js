@@ -50,7 +50,9 @@ export class CartContext {
 
   orderConfirmed() {
     this.carts = [];
-    this.notifyListeners();
+    setTimeout(() => {
+      this.notifyListeners();
+    }, 1200);
   }
 
   subscribe(listener) {
