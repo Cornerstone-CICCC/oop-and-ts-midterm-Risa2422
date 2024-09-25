@@ -276,6 +276,11 @@ logo {
   font-size: 14px;
 }
 
+.after-confirmed {
+  background-color: rgb(245, 109, 68);
+  color: white;
+}
+
 .cart-buttons {
   display: flex;
   justify-content: space-around;

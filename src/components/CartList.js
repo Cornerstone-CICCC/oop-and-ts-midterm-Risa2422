@@ -43,6 +43,9 @@ export class CartList extends Component {
     this.totalData
       .querySelector(".btn-confirm")
       .addEventListener("click", () => {
+        document.querySelector(".btn-confirm").classList.add("after-confirmed");
+        document.querySelector(".btn-confirm").textContent =
+          "Your order was confirmed!";
         this.props.cartContext.orderConfirmed();
       });
   }
