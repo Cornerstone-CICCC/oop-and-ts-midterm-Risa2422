@@ -23,8 +23,7 @@ export class ProductList extends Component {
 
   render() {
     this.todoListElement = document.createElement("ul");
-    this.todoListElement.classList.add("ul");
-
+    this.todoListElement.classList.add("product-list");
     this.props.cartContext.products.forEach((item) => {
       const productItem = new ProductItem({
         item,

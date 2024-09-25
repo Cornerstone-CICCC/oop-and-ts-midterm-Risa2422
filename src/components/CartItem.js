@@ -47,6 +47,7 @@ export class CartItem extends Component {
 
   render() {
     const todoElement = document.createElement("li");
+    todoElement.className = "product";
     todoElement.innerHTML = `
       <p>Title:${this.getProductTitle()}</p>  
       <button class="decrease">-</button><span>${this.getCurrentCount()}</span><button class="increase">+</button>

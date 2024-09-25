@@ -30,7 +30,7 @@ export class App extends Component {
     container.innerHTML = `
     <container>
       <header></header>
-      <wrapper>
+      <wrapper id=wrapper>
         <div id="wrapper-product"></div>
         <div id="wrapper-carts"></div>
       </wrapper>

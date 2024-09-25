@@ -44,23 +44,38 @@ export class ProductItem extends Component {
   }
 
   render() {
-    const item = document.createElement("li");
-    item.innerHTML = `
-  <img src="${this.props.item.image}">
-  <p>Price: ${this.formattedPrice(this.props.item.price)}</p>
-  <div>
-    ${
-      this.props.cartContext.carts.some(
-        (cartItem) => cartItem.id === this.props.item.id
-      )
-        ? `<button class="decrease">-</button><span>${this.getCurrentCount()}</span><button class="increase">+</button><span>`
-        : `<button class="addToCart">add to cart</button>`
-    }
-  </div>`;
+    const productData = document.createElement("li");
+    productData.className = "product-data";
+    productData.innerHTML = `
+      <h3 class="product-title">${this.props.item.title}</h3>
+      <div class="product-image">
+        <img src="${this.props.item.image}" alt="${this.props.item.title}">
+      </div>
+      <div class="product-price-button">
+        <p>${this.formattedPrice(this.props.item.price)}</p>
+        ${
+          this.props.cartContext.carts.some(
+            (cartItem) => cartItem.id === this.props.item.id
+          )
+            ? `
+            <div class="btn-count">
+              <button class="btn-decrease">-</button>
+              <span class="count">${this.getCurrentCount()}</span>
+              <button class="btn-increase">+</button>
+            </div>`
+            : `
+            <button class="btn-add-cart">
+              <img src="../images/icon-add-to-cart.svg" alt="Add to cart">
+              Add to cart
+            </button>`
+        }
+      </div>
+      <div></div>
+    `;
 
-    const increaseButton = item.querySelector(".increase");
-    const decreaseButton = item.querySelector(".decrease");
-    const addToCartButton = item.querySelector(".addToCart");
+    const increaseButton = productData.querySelector(".btn-increase");
+    const decreaseButton = productData.querySelector(".btn-decrease");
+    const addToCartButton = productData.querySelector(".btn-add-cart");
 
     if (increaseButton) {
       increaseButton.addEventListener("click", () => {
@@ -79,6 +94,6 @@ export class ProductItem extends Component {
         this.handleAddCart(this.props.item);
       });
     }
-    return item;
+    return productData;
   }
 }
