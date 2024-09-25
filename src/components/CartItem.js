@@ -45,27 +45,52 @@ export class CartItem extends Component {
     return productTitle.title;
   }
 
+  getEachTotal() {
+    const eachPrice = this.props.cartContext.products.find(
+      (item) => item.id === this.props.item.id
+    );
+
+    const eachQuantity = this.props.cartContext.carts.find(
+      (item) => item.id === this.props.item.id
+    );
+
+    return eachPrice.price * eachQuantity.quantity;
+  }
+
   render() {
     const todoElement = document.createElement("li");
-    todoElement.className = "product";
+    todoElement.className = "cart-product";
     todoElement.innerHTML = `
-      <p>Title:${this.getProductTitle()}</p>  
-      <button class="decrease">-</button><span>${this.getCurrentCount()}</span><button class="increase">+</button>
-      <button class='btn-delete'>Delete</button>`;
+      <p class="cart-item-title">${this.getProductTitle()}</p>
+      <div class="cart-modify">
+        <p>$${this.getEachTotal()}</p>
+        <div class="cart-button-list">
+          <div class="cart-buttons">
+            <button class="cart-decrease">-</button>
+            <span>${this.getCurrentCount()}</span>
+            <button class="cart-increase">+</button>
+          </div>
+            <button class="btn-remove"></button>
+        </div>
+      </div>`;
 
     todoElement
-      .querySelector(".btn-delete")
+      .querySelector(".btn-remove")
       .addEventListener("click", () =>
         this.handleDeleteCart(this.props.item.id)
       );
 
-    todoElement.querySelector(".increase").addEventListener("click", () => {
-      this.handleIncreaseQuantity(this.props.item.id);
-    });
+    todoElement
+      .querySelector(".cart-increase")
+      .addEventListener("click", () => {
+        this.handleIncreaseQuantity(this.props.item.id);
+      });
 
-    todoElement.querySelector(".decrease").addEventListener("click", () => {
-      this.handleDecreaseQuantity(this.props.item.id);
-    });
+    todoElement
+      .querySelector(".cart-decrease")
+      .addEventListener("click", () => {
+        this.handleDecreaseQuantity(this.props.item.id);
+      });
 
     return todoElement;
   }

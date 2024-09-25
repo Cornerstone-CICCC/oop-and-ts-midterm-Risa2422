@@ -8,11 +8,21 @@ export class CartList extends Component {
     this.updateCart = this.updateCart.bind(this);
     this.props.cartContext.subscribe(this.updateCart);
     this.todoListElement = null;
+    this.totalData = null;
+    this.cartImage = null;
   }
 
   updateCart() {
     this.todoListElement.innerHTML = "";
+    this.cartImage.classList.add("remove");
+
     this.state.carts = this.props.cartContext.carts;
+
+    if (this.state.carts.length === 0) {
+      this.totalData.innerHTML = "";
+      this.cartImage.classList.remove("remove");
+      return;
+    }
 
     this.state.carts.forEach((item) => {
       const cartItem = new CartItem({
@@ -23,20 +33,18 @@ export class CartList extends Component {
       this.todoListElement.appendChild(cartItem.render());
     });
 
-    // get total
-    const total = document.createElement("div");
-    total.innerHTML = `<p>total:${this.getTotalCount()}</p><p>total Price:${this.getTotalPrice()}</p> 
+    this.totalData.innerHTML = `
+      <p class="total-price"><span>Total ( <span>${this.getTotalCount()} )</span></span>
+      <span>${this.getTotalPrice()}</span></p>
       <div>
         <button class='btn-confirm'>Order Confirmed</button>
       </div>`;
 
-    total.querySelector(".btn-confirm").addEventListener("click", () => {
-      this.props.cartContext.orderConfirmed();
-      this.todoListElement.innerHTML = "<ul>Nothing is selected.</ul>";
-      return;
-    });
-
-    this.todoListElement.appendChild(total);
+    this.totalData
+      .querySelector(".btn-confirm")
+      .addEventListener("click", () => {
+        this.props.cartContext.orderConfirmed();
+      });
   }
 
   getTotalCount() {
@@ -51,13 +59,13 @@ export class CartList extends Component {
   getTotalPrice() {
     let totalPrice = 0;
     this.props.cartContext.carts.forEach((item) => {
-      let price = this.props.cartContext.products.find(
+      const price = this.props.cartContext.products.find(
         (item2) => item2.id === item.id
       );
 
-      let quantity = item.quantity;
-
-      totalPrice += price.price * quantity;
+      if (price) {
+        totalPrice += price.price * item.quantity;
+      }
     });
 
     return this.formattedPrice(totalPrice);
@@ -73,8 +81,17 @@ export class CartList extends Component {
   render() {
     const todoListElement = document.createElement("div");
     todoListElement.className = "cart";
-    todoListElement.innerHTML = `<h2>What's in cart</h2><ul id='cart'>Nothing is selected.</ul>`;
+    todoListElement.innerHTML = `
+      <h2>Order Summary</h2>
+      <div class="cart-image">
+        <img src="../images/empty-cart.svg"></img>
+        <p>Your added items will be appear here.</p>
+      </div>
+      <ul id='cart'></ul>
+      <div class="total"></div>`;
     this.todoListElement = todoListElement.querySelector("ul");
+    this.totalData = todoListElement.querySelector(".total");
+    this.cartImage = todoListElement.querySelector(".cart-image");
 
     return todoListElement;
   }
