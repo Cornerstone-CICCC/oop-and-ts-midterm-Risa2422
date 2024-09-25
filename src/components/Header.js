@@ -5,10 +5,12 @@ export class Header extends Component {
     const header = document.createElement("header");
     header.innerHTML = `
       <nav>
-        <menu>
-          <li><a href="#">Home</a></li>
-          <li><a href="cart.html">Cart</a></li>
-        </menu>
+        <logo>Shop</logo>
+        <ul class=menu-list>
+          <li>Home</li>
+          <li>About</li>
+          <li>Contact</li>
+        </ul>
       </nav>
     `;
     return header;
