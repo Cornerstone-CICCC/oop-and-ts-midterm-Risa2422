@@ -13,6 +13,7 @@ export class CartContext {
       image: data.image,
       title: data.title,
       price: data.price,
+      modal: false,
     };
 
     this.products.push(product);
@@ -25,6 +26,26 @@ export class CartContext {
     };
 
     this.carts.push(itemInfo);
+    this.notifyListeners();
+  }
+
+  addModalProduct(id) {
+    this.products.forEach((item) => {
+      if (item.id === id) {
+        item.modal = true;
+      }
+    });
+
+    this.notifyListeners();
+  }
+
+  closeModal(id) {
+    this.products.forEach((item) => {
+      if (item.id === id) {
+        item.modal = false;
+      }
+    });
+
     this.notifyListeners();
   }
 
