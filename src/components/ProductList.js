@@ -4,34 +4,39 @@ import { ProductItem } from "./ProductItem.js";
 export class ProductList extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { products: [] };
     this.updateProductList = this.updateProductList.bind(this);
     this.props.cartContext.subscribe(this.updateProductList);
-    this.todoListElement = null;
+    this.productList = null;
   }
 
   updateProductList() {
-    this.todoListElement.innerHTML = "";
-    this.props.cartContext.products.forEach((item) => {
+    this.state.products = this.props.cartContext.products;
+    this.productList.innerHTML = "";
+
+    this.state.products.forEach((item) => {
       const productItem = new ProductItem({
         item,
         cartContext: this.props.cartContext,
       });
-      this.todoListElement.appendChild(productItem.render());
+
+      this.productList.appendChild(productItem.render());
     });
   }
 
   render() {
-    this.todoListElement = document.createElement("ul");
-    this.todoListElement.classList.add("product-list");
-    this.props.cartContext.products.forEach((item) => {
+    this.state.products = this.props.cartContext.products;
+    this.productList = document.createElement("ul");
+    this.productList.classList.add("product-list");
+    this.state.products.forEach((item) => {
       const productItem = new ProductItem({
         item,
         cartContext: this.props.cartContext,
       });
-      this.todoListElement.appendChild(productItem.render());
+
+      this.productList.appendChild(productItem.render());
     });
 
-    return this.todoListElement;
+    return this.productList;
   }
 }

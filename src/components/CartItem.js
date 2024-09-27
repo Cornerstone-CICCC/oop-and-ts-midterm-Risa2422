@@ -15,12 +15,12 @@ export class CartItem extends Component {
   }
 
   handleDecreaseQuantity(id) {
-    const cart = this.props.cartContext.carts;
-    const target = cart.find((item) => {
-      return item.id === id;
+    this.state.carts = this.props.cartContext.carts;
+    const selectedItem = this.state.carts.find((CartItem) => {
+      return CartItem.id === id;
     });
 
-    if (target.quantity === 1) {
+    if (selectedItem.quantity === 1) {
       this.props.cartContext.removeProduct(id);
     } else {
       this.props.cartContext.decreaseQuantity(id);
@@ -39,10 +39,17 @@ export class CartItem extends Component {
   }
 
   getProductTitle() {
-    const productTitle = this.props.cartContext.products.find(
+    const itemTitle = this.props.cartContext.products.find(
       (item) => item.id === this.props.item.id
     );
-    return productTitle.title;
+    return itemTitle.title;
+  }
+
+  formattedPrice(price) {
+    return price.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   }
 
   getEachTotal() {
@@ -54,13 +61,14 @@ export class CartItem extends Component {
       (item) => item.id === this.props.item.id
     );
 
-    return eachPrice.price * eachQuantity.quantity;
+    const totalPrice = eachPrice.price * eachQuantity.quantity;
+    return this.formattedPrice(totalPrice);
   }
 
   render() {
-    const todoElement = document.createElement("li");
-    todoElement.className = "cart-product";
-    todoElement.innerHTML = `
+    const cartItem = document.createElement("li");
+    cartItem.className = "cart-product";
+    cartItem.innerHTML = `
       <p class="cart-item-title">${this.getProductTitle()}</p>
       <div class="cart-modify">
         <p>$${this.getEachTotal()}</p>
@@ -74,24 +82,20 @@ export class CartItem extends Component {
         </div>
       </div>`;
 
-    todoElement
+    cartItem
       .querySelector(".btn-remove")
       .addEventListener("click", () =>
         this.handleDeleteCart(this.props.item.id)
       );
 
-    todoElement
-      .querySelector(".cart-increase")
-      .addEventListener("click", () => {
-        this.handleIncreaseQuantity(this.props.item.id);
-      });
+    cartItem.querySelector(".cart-increase").addEventListener("click", () => {
+      this.handleIncreaseQuantity(this.props.item.id);
+    });
 
-    todoElement
-      .querySelector(".cart-decrease")
-      .addEventListener("click", () => {
-        this.handleDecreaseQuantity(this.props.item.id);
-      });
+    cartItem.querySelector(".cart-decrease").addEventListener("click", () => {
+      this.handleDecreaseQuantity(this.props.item.id);
+    });
 
-    return todoElement;
+    return cartItem;
   }
 }

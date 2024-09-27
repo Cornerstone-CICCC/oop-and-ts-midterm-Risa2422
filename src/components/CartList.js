@@ -7,20 +7,15 @@ export class CartList extends Component {
     this.state = { carts: [] };
     this.updateCart = this.updateCart.bind(this);
     this.props.cartContext.subscribe(this.updateCart);
-    this.todoListElement = null;
+    this.cartListElement = null;
     this.totalData = null;
-    this.cartImage = null;
   }
 
   updateCart() {
-    this.todoListElement.innerHTML = "";
-    this.cartImage.classList.add("remove");
-
+    this.cartListElement.innerHTML = "";
     this.state.carts = this.props.cartContext.carts;
-
     if (this.state.carts.length === 0) {
       this.totalData.innerHTML = "";
-      this.cartImage.classList.remove("remove");
       return;
     }
 
@@ -30,12 +25,14 @@ export class CartList extends Component {
         cartContext: this.props.cartContext,
       });
 
-      this.todoListElement.appendChild(cartItem.render());
+      this.cartListElement.appendChild(cartItem.render());
     });
 
     this.totalData.innerHTML = `
-      <p class="total-price"><span>Total ( <span>${this.getTotalCount()} )</span></span>
-      <span>${this.getTotalPrice()}</span></p>
+      <p class="total-price">
+        <span>Total ( ${this.getTotalCount()} )</span>
+        <span>$${this.getTotalPrice()}</span>
+      </p>
       <div>
         <button class='btn-confirm'>Order Confirmed</button>
       </div>`;
@@ -51,51 +48,47 @@ export class CartList extends Component {
   }
 
   getTotalCount() {
-    let total = 0;
-    this.props.cartContext.carts.forEach((item) => {
-      total += item.quantity;
+    let totalCount = 0;
+    this.state.carts.forEach((item) => {
+      totalCount += item.quantity;
     });
 
-    return total;
+    return totalCount;
   }
 
   getTotalPrice() {
-    let totalPrice = 0;
-    this.props.cartContext.carts.forEach((item) => {
-      const price = this.props.cartContext.products.find(
-        (item2) => item2.id === item.id
+    const totalPrice = this.state.carts.reduce((accumulator, cartItem) => {
+      const product = this.props.cartContext.products.find(
+        (productItem) => productItem.id === cartItem.id
       );
 
-      if (price) {
-        totalPrice += price.price * item.quantity;
+      if (product) {
+        return accumulator + product.price * cartItem.quantity;
       }
-    });
+
+      return accumulator;
+    }, 0);
 
     return this.formattedPrice(totalPrice);
   }
 
   formattedPrice(price) {
     return price.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     });
   }
 
   render() {
-    const todoListElement = document.createElement("div");
-    todoListElement.className = "cart";
-    todoListElement.innerHTML = `
+    const cartListElement = document.createElement("div");
+    cartListElement.className = "cart-list";
+    cartListElement.innerHTML = `
       <h2>Order Summary</h2>
-      <div class="cart-image">
-        <img src="../images/empty-cart.svg"></img>
-        <p>Your added items will be appear here.</p>
-      </div>
-      <ul id='cart'></ul>
+      <ul class='cart-list'></ul>
       <div class="total"></div>`;
-    this.todoListElement = todoListElement.querySelector("ul");
-    this.totalData = todoListElement.querySelector(".total");
-    this.cartImage = todoListElement.querySelector(".cart-image");
+    this.cartListElement = cartListElement.querySelector("ul");
+    this.totalData = cartListElement.querySelector(".total");
 
-    return todoListElement;
+    return cartListElement;
   }
 }

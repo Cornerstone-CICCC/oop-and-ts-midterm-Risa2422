@@ -35,7 +35,7 @@ export class App extends Component {
     <container>
       <header></header>
       <wrapper id=wrapper>
-        <div id="wrapper-product"></div>
+        <div class="wrapper-product"></div>
         <div class="container-cart">
           <div class="wrapper-carts"></div>
         </div>
@@ -51,15 +51,17 @@ export class App extends Component {
       cartContext: this.props.cartContext,
     }).render();
 
-    const footer = new Footer().render();
     const cartList = new CartList({
       cartContext: this.props.cartContext,
     }).render();
 
+    const footer = new Footer().render();
+
     container.querySelector("header").appendChild(header);
-    container.querySelector("#wrapper-product").appendChild(productList);
+    container.querySelector(".wrapper-product").appendChild(productList);
     container.querySelector(".wrapper-carts").appendChild(cartList);
     container.querySelector("footer").appendChild(footer);
+    
     return container;
   }
 }

@@ -6,7 +6,7 @@ export class ProductItem extends Component {
     this.handleIncreaseQuantity = this.handleIncreaseQuantity.bind(this);
     this.handleDecreaseQuantity = this.handleDecreaseQuantity.bind(this);
     this.handleAddCart = this.handleAddCart.bind(this);
-    this.handleModalAddCart = this.handleModalAddCart.bind(this);
+    this.handleModalAdd = this.handleModalAdd.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
   }
 
@@ -16,11 +16,11 @@ export class ProductItem extends Component {
 
   handleDecreaseQuantity(id) {
     const cart = this.props.cartContext.carts;
-    const target = cart.find((item) => {
+    const selectedItem = cart.find((item) => {
       return item.id === id;
     });
 
-    if (target.quantity === 1) {
+    if (selectedItem.quantity === 1) {
       this.props.cartContext.removeProduct(id);
     } else {
       this.props.cartContext.decreaseQuantity(id);
@@ -31,7 +31,7 @@ export class ProductItem extends Component {
     this.props.cartContext.addProduct(item);
   }
 
-  handleModalAddCart(id) {
+  handleModalAdd(id) {
     this.props.cartContext.addModalProduct(id);
   }
 
@@ -41,8 +41,8 @@ export class ProductItem extends Component {
 
   formattedPrice(price) {
     return price.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     });
   }
 
@@ -50,21 +50,23 @@ export class ProductItem extends Component {
     const currentCount = this.props.cartContext.carts.find(
       (item) => item.id === this.props.item.id
     );
+
     return currentCount.quantity;
   }
 
   render() {
-    const productData = document.createElement("li");
-    productData.className = "product-data";
-    productData.innerHTML = `
+    const productList = document.createElement("li");
+    productList.className = "product-data";
+    productList.innerHTML = `
     <h3 class="product-title">${this.props.item.title}</h3>
     <div class="product-image">
       <a class="btn-modal"><img src="${this.props.item.image}" alt="${
       this.props.item.title
-    }"></a>
+    }">
+      </a>
     </div>
     <div class="product-price-button">
-      <p>${this.formattedPrice(this.props.item.price)}</p>
+      <p>$${this.formattedPrice(this.props.item.price)}</p>
       ${
         this.props.cartContext.carts.some(
           (cartItem) => cartItem.id === this.props.item.id
@@ -84,49 +86,47 @@ export class ProductItem extends Component {
     </div>
     <div class="overlay ${this.props.item.modal ? "added" : ""}">
       <div class="modal">
-          <div class="modal-wrapper">
+        <div class="modal-wrapper">
           <button class="btn-modal-close"></button>
-            <h3>${this.props.item.title}</h3>
-            <div class="modal-image"><img src="${
-              this.props.item.image
-            }" alt="" /></div>
-            <div class="modal-item-info">
-              <p class="modal-item-description">${
-                this.props.item.description
-              }</p>
-                <div class="modal-price-button">
-                  <div class=modal-detail>
-                  <p>${this.formattedPrice(this.props.item.price)}</p>
-                  ${
-                    this.props.cartContext.carts.some(
-                      (cartItem) => cartItem.id === this.props.item.id
-                    )
-                      ? `
-                  <div class="btn-count btn-modal-count">
-                    <button class="btn-decrease">-</button>
-                    <span class="count">${this.getCurrentCount()}</span>
-                    <button class="btn-increase">+</button>
-                  </div>
-                  `
-                      : `
-                  <button class="btn-add-cart btn-modal-add-cart">
-                    <img src="../images/icon-add-to-cart.svg" alt="Add to cart" />
-                    Add to Cart
-                    </button>`
-                  }
-                  </div>
+          <h3>${this.props.item.title}</h3>
+          <div class="modal-image"><img src="${
+            this.props.item.image
+          }" alt="item image" /></div>
+          <div class="modal-item-info">
+            <p class="modal-item-description">${
+              this.props.item.description
+            }</p>
+              <div class="modal-price-button">
+                <div class=modal-detail>
+                <p>${this.formattedPrice(this.props.item.price)}</p>
+                ${
+                  this.props.cartContext.carts.some(
+                    (cartItem) => cartItem.id === this.props.item.id
+                  )
+                    ? `
+                <div class="btn-count btn-modal-count">
+                  <button class="btn-decrease">-</button>
+                  <span class="count">${this.getCurrentCount()}</span>
+                  <button class="btn-increase">+</button>
+                </div>`
+                    : `
+                <button class="btn-add-cart btn-modal-add-cart">
+                  <img src="../images/icon-add-to-cart.svg" alt="Add to cart" />
+                  Add to Cart
+                  </button>`
+                }
               </div>
             </div>
           </div>
+        </div>
       </div>
-    </div>
-    `;
+    </div>`;
 
-    const increaseButton = productData.querySelectorAll(".btn-increase");
-    const decreaseButton = productData.querySelectorAll(".btn-decrease");
-    const addToCartButton = productData.querySelectorAll(".btn-add-cart");
-    const showModal = productData.querySelector(".btn-modal");
-    const closeModal = productData.querySelector(".btn-modal-close");
+    const increaseButton = productList.querySelectorAll(".btn-increase");
+    const decreaseButton = productList.querySelectorAll(".btn-decrease");
+    const addToCartButton = productList.querySelectorAll(".btn-add-cart");
+    const showModal = productList.querySelector(".btn-modal");
+    const closeModal = productList.querySelector(".btn-modal-close");
 
     increaseButton.forEach((element) => {
       if (increaseButton) {
@@ -153,14 +153,15 @@ export class ProductItem extends Component {
     });
 
     showModal.addEventListener("click", () => {
-      productData.querySelector(".overlay").classList.add("added");
-      this.handleModalAddCart(this.props.item.id);
+      productList.querySelector(".overlay").classList.add("added");
+      this.handleModalAdd(this.props.item.id);
     });
 
     closeModal.addEventListener("click", () => {
-      productData.querySelector(".overlay").classList.remove("added");
+      productList.querySelector(".overlay").classList.remove("added");
       this.handleModalClose(this.props.item.id);
     });
-    return productData;
+    
+    return productList;
   }
 }

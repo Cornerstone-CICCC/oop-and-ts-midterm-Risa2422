@@ -14,7 +14,7 @@ export class Header extends Component {
     const header = document.createElement("header");
     header.innerHTML = `
       <nav>
-        <logo>Shop</logo>
+        <logo>LOGO</logo>
         <ul class=menu-list>
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
@@ -31,28 +31,34 @@ export class Header extends Component {
       const isCartShow = document.querySelector(
         ".container-cart.container-cart-add"
       );
-      const wrapperProduct = document.getElementById("wrapper-product");
+      const wrapperProduct = document.querySelector(".wrapper-product");
       const wrapperCarts = document.querySelector(".wrapper-carts");
 
+      // hide the order summary section
       if (isCartShow) {
         if (wrapperCarts) {
           wrapperCarts.classList.remove("showCart");
         }
+
         setTimeout(() => {
           document
             .querySelector(".container-cart")
             .classList.remove("container-cart-add");
         }, 1000);
+
         wrapperProduct.style.flex = "0 0 100%";
       } else {
+        // show the order summary section
         document
           .querySelector(".container-cart")
           .classList.add("container-cart-add");
+        if (wrapperCarts) {
+          wrapperCarts.classList.add("showCart");
+        }
+
         wrapperProduct.style.flex = "0 0 70%";
       }
-      if (wrapperCarts) {
-        wrapperCarts.classList.add("showCart");
-      }
+      
       this.handleShowCart();
     });
 
