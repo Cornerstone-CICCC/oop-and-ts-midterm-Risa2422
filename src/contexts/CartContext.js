@@ -58,7 +58,6 @@ export class CartContext {
 
   increaseQuantity(id) {
     this.carts.forEach((item) => {
-      console.log(item);
       item.id === id ? item.quantity++ : item;
     });
 
