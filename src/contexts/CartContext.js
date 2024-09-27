@@ -3,6 +3,7 @@ export class CartContext {
     this.products = [];
     this.carts = [];
     this.listeners = [];
+    this.isShow = false;
   }
 
   setProduct(data) {
@@ -23,6 +24,7 @@ export class CartContext {
     const itemInfo = {
       id: product.id,
       quantity: 1,
+      isShow: true,
     };
 
     this.carts.push(itemInfo);
@@ -46,6 +48,11 @@ export class CartContext {
       }
     });
 
+    this.notifyListeners();
+  }
+
+  showCart() {
+    this.isShow = !this.isShow;
     this.notifyListeners();
   }
 
