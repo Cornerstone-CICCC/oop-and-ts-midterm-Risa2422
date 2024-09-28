@@ -98,7 +98,7 @@ export class ProductItem extends Component {
             }</p>
               <div class="modal-price-button">
                 <div class=modal-detail>
-                <p>${this.formattedPrice(this.props.item.price)}</p>
+                <p>$${this.formattedPrice(this.props.item.price)}</p>
                 ${
                   this.props.cartContext.carts.some(
                     (cartItem) => cartItem.id === this.props.item.id

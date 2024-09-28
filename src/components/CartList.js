@@ -81,7 +81,7 @@ export class CartList extends Component {
 
   render() {
     const cartListElement = document.createElement("div");
-    cartListElement.className = "cart-list";
+    cartListElement.className = "order";
     cartListElement.innerHTML = `
       <h2>Order Summary</h2>
       <ul class='cart-list'></ul>
