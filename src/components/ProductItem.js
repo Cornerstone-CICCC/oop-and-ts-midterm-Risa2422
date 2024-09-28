@@ -80,8 +80,8 @@ export class ProductItem extends Component {
           : `
           <button class="btn-add-cart">
             <img src="../images/icon-add-to-cart.svg" alt="Add to cart">
-            Add to cart
-          </button>`
+
+            </button>`
       }
     </div>
     <div class="overlay ${this.props.item.modal ? "added" : ""}">
@@ -112,7 +112,6 @@ export class ProductItem extends Component {
                     : `
                 <button class="btn-add-cart btn-modal-add-cart">
                   <img src="../images/icon-add-to-cart.svg" alt="Add to cart" />
-                  Add to Cart
                   </button>`
                 }
               </div>
