@@ -31,11 +31,12 @@ body {
   flex-direction: column;
   gap: 48px;
   padding: 10px 36px;
+  position: relative;
 }
 
 nav {
   display: flex;
-  gap: 50px;
+  gap: 60px;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
@@ -49,7 +50,7 @@ nav {
 }
 
 .menu-list li {
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .menu-list li a {
@@ -66,7 +67,7 @@ nav {
 .btn-show-cart::after {
   position: absolute;
   content: "";
-  top: 50%;
+  top: 90%;
   left: 50%;
   width: 18px;
   height: 18px;
@@ -91,20 +92,28 @@ nav {
 .hero::after {
   position: absolute;
   content: "Product catalog";
-  top: 30%;
+  top: 33%;
   left: 10%;
   color: rgb(99, 95, 95);
-  letter-spacing: 1.3px;
+  letter-spacing: 2.3px;
   font-family: "Playfair Display", serif;
   font-size: 24px;
   font-weight: 500;
 }
 
-logo {
+.logo {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 10px;
   font-size: 12px;
+  width: 120px;
+  height: 40px;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
 }
 
 .menu-list {
@@ -135,7 +144,7 @@ logo {
   align-items: center;
   justify-content: center;
   padding: 20px 20px 20px;
-  border-bottom: 1px solid rgb(180, 179, 179);
+  border-bottom: 0.4px solid rgb(180, 179, 179);
 }
 
 .product-title {
@@ -177,7 +186,7 @@ logo {
 }
 
 .product-price-button p {
-  color: rgb(114, 110, 110);
+  color: rgb(71, 67, 67);
   font-weight: 500;
   font-family: "Fredoka", system-ui;
 }
@@ -193,7 +202,7 @@ logo {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1.4px rgb(177, 69, 69) solid;
+  border: 1.8px rgb(177, 69, 69) solid;
   height: 40px;
   border-radius: 5px;
   padding: 10px;
@@ -252,35 +261,9 @@ logo {
 }
 
 /* Carts */
-.container-cart {
-  display: block;
-  flex: 3;
-  max-height: 500px;
-  max-height: 600px;
-  position: relative;
-  transition: all 1s ease;
-}
-
-.container-cart-add {
-  display: block;
-  transition: all 1s ease;
-}
-
-.wrapper-carts {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 0.9px rgb(140, 138, 138) solid;
-  transform: translateX(0%);
-}
-
-.showCart {
-  transform: translateX(0%);
-  transition: transition 1s ease;
-}
-
 .order {
-  padding: 12px;
+  padding: 24px;
+  border: 0.9px rgb(140, 138, 138) solid;
 }
 
 .cart-list {
@@ -293,7 +276,7 @@ logo {
 }
 
 .order h2 {
-  margin-bottom: 10px;
+  margin: 18px 0;
   font-size: 26px;
   font-family: "Playfair Display", serif;
 }
@@ -305,7 +288,7 @@ logo {
 .cart-product {
   display: flex;
   flex-direction: column;
-  padding: 16px 0;
+  padding: 24px 0;
   border-bottom: 0.6px solid rgb(109, 107, 107);
   font-size: 13px;
 }
@@ -314,6 +297,7 @@ logo {
   text-align: start;
   color: rgb(69, 65, 65);
   font-size: 15px;
+  font-weight: 500;
 }
 
 .cart-count {
@@ -332,11 +316,11 @@ logo {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 16px;
+  padding: 16px 10px 0;
 }
 
 .cart-modify p {
-  font-size: 15px;
+  font-size: 17px;
   color: rgb(57, 56, 56);
   font-family: "Playfair Display", serif;
 }
@@ -382,7 +366,7 @@ logo {
   display: block;
   text-align: center;
   color: rgb(74, 73, 73);
-  font-size: 14px;
+  font-size: 18px;
 
   font-family: "Playfair Display", serif;
 }
@@ -534,7 +518,7 @@ logo {
 }
 
 .modal-detail p {
-  color: rgb(130, 117, 117);
+  color: rgb(71, 67, 67);
   font-family: "Fredoka", system-ui;
 }
 
@@ -575,15 +559,13 @@ logo {
   padding: 0 20px;
 }
 
-footer ul {
+footer {
   display: flex;
   justify-content: center;
-  gap: 50px;
   padding: 10px;
-  color: rgb(96, 95, 92);
 }
 
-footer li a {
+footer p {
   color: rgb(96, 95, 92);
   font-size: 12px;
 }
@@ -616,7 +598,7 @@ footer li a {
   }
 
   nav {
-    padding: 10px 50px;
+    padding: 5px 50px;
   }
 
   .product-list {
@@ -633,6 +615,11 @@ footer li a {
 
   .product-price-button {
     font-size: 13px;
+  }
+
+  .order {
+    max-width: 690px;
+    margin: auto;
   }
 
   .product-price-button p {
@@ -660,7 +647,7 @@ footer li a {
   }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1300px) {
   #wrapper {
     flex-direction: row;
   }
@@ -673,20 +660,18 @@ footer li a {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  /* .product-image {
-    margin-top: 10px;
-    width: 90px;
-    height: 90px;
-  } */
-
   .container-cart {
     display: none;
     flex: 3;
-    max-height: 500px;
     position: relative;
     transition: all 1s ease;
-    max-height: 600px;
-    /* background-color: red; */
+    max-height: 700px;
+    max-width: 620px;
+    width: 100%;
+  }
+
+  .order {
+    width: 100%;
   }
 
   .container-cart-add {
@@ -695,16 +680,17 @@ footer li a {
   }
 
   .wrapper-carts {
-    border: 0.9px rgb(140, 138, 138) solid;
     position: absolute;
     left: 0;
     top: 0;
-    min-width: 240px;
-    width: 100%;
+    min-width: 340px;
+    height: 100%;
+    overflow: hidden;
+    transform: translateX(0%);
   }
 
   .showCart {
     transform: translateX(0%);
-    transition: transition 1s ease;
+    transition: all 1s ease;
   }
 }
