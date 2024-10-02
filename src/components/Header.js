@@ -14,7 +14,7 @@ export class Header extends Component {
     const header = document.createElement("header");
     header.innerHTML = `
       <nav>
-        <logo>LOGO</logo>
+        <div class="logo"><img src="../images/logo.png"></class=img></div>
         <ul class=menu-list>
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
