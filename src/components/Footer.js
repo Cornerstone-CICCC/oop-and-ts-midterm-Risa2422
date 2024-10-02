@@ -2,13 +2,9 @@ import { Component } from "../common/Component.js";
 
 export class Footer extends Component {
   render() {
-    const footer = document.createElement("div");
+    const footer = document.createElement("footer");
     footer.innerHTML = `
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>`;
+      <p>&copy; 2024 Sleek Shop. All rights reserved.</p>`;
     return footer;
   }
 }
